@@ -1,3 +1,5 @@
+import { render, screen } from '@testing-library/react'
+import Home from './Home'
 
 const user = {
   id: 1,
@@ -10,6 +12,21 @@ const user = {
   color: 'crimson',
 }
 
-test('Should render the user profile', () => {
+test('Should render the user profile', async () => {
+  render(<Home user={user} />)
 
+  const { name } = user
+  const header = await screen.findByAltText('header')
+  const avatar = await screen.findByAltText('avatar')
+  const userMotto = screen.getByText(/res non verba/i)
+  const userName = screen.getByRole('heading', { name })
+  const interests = screen.getByRole('heading', { name: /interests/i })
+  const userLikes = screen.getByRole('list')
+
+  expect(header).toBeInTheDocument()
+  expect(avatar).toBeInTheDocument()
+  expect(userName).toBeInTheDocument()
+  expect(interests).toBeInTheDocument()
+  expect(userMotto).toBeInTheDocument()
+  expect(userLikes).toBeInTheDocument()
 })
